@@ -2,7 +2,7 @@
   <div class="wrap">
     <yd-list theme='1'>
       <yd-list-item v-for='(item, key) in list' :key='key'>
-        <img slot='img' :src='item.img'>
+        <img slot='img' :src='item.img' class="img">
         <span slot='title'>{{item.title}}</span>
         <yd-list-other slot='other'>
           <div>
@@ -40,4 +40,8 @@ export default {
 .wrap
   width 100%
   height 100%
+  // overflow hidden
+  padding-bottom 50px
+  .img
+    width 100%
 </style>

@@ -47,6 +47,23 @@ export default {
       return bottom
     }
   },
+  updated () {
+    if (this.$route.name === 'home') {
+      this.forArr[0].isActive = true
+      this.forArr[1].isActive = false
+      this.forArr[2].isActive = false
+    }
+    if (this.$route.name === 'shopCar') {
+      this.forArr[1].isActive = true
+      this.forArr[0].isActive = false
+      this.forArr[2].isActive = false
+    }
+    if (this.$route.name === 'center') {
+      this.forArr[2].isActive = true
+      this.forArr[0].isActive = false
+      this.forArr[1].isActive = false
+    }
+  },
   methods: {
     click (index) {
       for (let i of this.forArr) {
@@ -72,6 +89,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  width: 100%;
+  height: 100%;
   /* margin-top: 60px; */
 }
 </style>

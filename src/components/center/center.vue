@@ -1,25 +1,25 @@
 <template>
-  <div class="wrap">
-    <yd-infinitescroll :callback='loadList' ref='infinitescrollDemo'>
-      <yd-list theme='1' slot='list'>
-        <yd-list-item v-for='(item, key) in list' :key='key'>
-          <img slot='img' :src='item.img' class="img">
-          <span slot='title'>{{item.title}}</span>
-          <yd-list-other slot='other'>
-            <div>
-              <span class='list-price'>
-                <em>¥</em>{{item.marketprice}}</span>
-              <span class='list-del-price'>¥{{item.productprice}}</span>
-            </div>
-            <div>content</div>
-          </yd-list-other>
-        </yd-list-item>
-      </yd-list>
-      <!-- 数据全部加载完毕显示 -->
-      <span slot='doneTip'>啦啦啦，啦啦啦，没有数据啦~~</span>
-      <!-- 加载中提示，不指定，将显示默认加载中图标 -->
-      <!-- <img slot='loadingTip' src='http://static.ydcss.com/uploads/ydui/loading/loading10.svg' /> -->
-    </yd-infinitescroll>
+  <div class="wrap" ref="myTask">
+    <div v-for='(item, key) in list' :key='key'>
+      <img slot='img' :src='item.img' class="img">
+      <span slot='title'>{{item.title}}</span>
+      <yd-list-other slot='other'>
+        <div>
+          <span class='list-price'>
+            <em>¥</em>{{item.marketprice}}</span>
+          <span class='list-del-price'>¥{{item.productprice}}</span>
+        </div>
+      </yd-list-other>
+    </div>
+    <div v-show="abc">
+      <p>yige </p>
+      <p>yige </p>
+      <p>yige </p>
+      <p>yige </p>
+      <p>yige </p>
+      <p>yige </p>
+    </div>
+    <img v-show="aaa" slot="loadingTip" src="http://static.ydcss.com/uploads/ydui/loading/loading10.svg" />
   </div>
 </template>
 
@@ -33,6 +33,8 @@ export default {
     return {
       page: 1,
       pageSize: 10,
+      abc: false,
+      aaa: false,
       list: [
         {
           img: 'http://img1.shikee.com/try/2016/06/23/14381920926024616259.jpg',
@@ -73,41 +75,36 @@ export default {
       ]
     }
   },
+  mounted () {
+    this.$refs.myTask.addEventListener('scroll', this.handleScroll)
+  },
   methods: {
-    loadList () {
-      this.$ajax('http://list.ydui.org/getdata.php?type=backposition', {
-        params: {
-          page: this.page,
-          pagesize: this.pageSize
-        }
-      }).then(function (response) {
-        const _list = response.body
-
-        this.list = [...this.list, ..._list]
-
-        if (_list.length < this.pageSize || this.page === 3) {
-          /* 所有数据加载完毕 */
-          this.$refs.infinitescrollDemo.$emit('ydui.infinitescroll.loadedDone')
-          return
-        }
-
-        /* 单次请求数据完毕 */
-        this.$refs.infinitescrollDemo.$emit('ydui.infinitescroll.finishLoad')
-
+    handleScroll (e) {
+      console.log(e)
+      let scrollTop = this.$refs.myTask.scrollTop
+      let clientHeight = this.$refs.myTask.clientHeight
+      // 元素内容的总高度
+      let scrollHeight = this.$refs.myTask.scrollHeight
+      console.log(scrollTop, clientHeight, scrollHeight)
+      if ((scrollHeight - clientHeight - scrollTop <= 10) && (this.page < 3)) {
+        this.aaa = true
         this.page++
-      })
+        setTimeout(() => {
+          this.abc = true
+          this.aaa = false
+        }, 600)
+      }
     }
   }
 }
 </script>
-
-<!-- Add 'scoped' attribute to limit CSS to this component only -->
 <style lang='stylus' rel='stylesheet/stylus' scoped>
 .wrap
   width 100%
   height 100%
   // overflow hidden
-  padding-bottom 50px
+  padding-bottom 70px
+  overflow scroll
   .img
     width 100%
 </style>

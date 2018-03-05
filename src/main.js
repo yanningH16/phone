@@ -5,7 +5,9 @@ import App from './App'
 import router from './router'
 import YDUI from 'vue-ydui'
 import 'vue-ydui/dist/ydui.base.css'
+import 'vue-ydui/dist/ydui.rem.css'
 import axios from './assets/js/http'
+import './assets//stylus/resent.stylus'
 
 Vue.config.productionTip = false
 Vue.prototype.$ajax = axios

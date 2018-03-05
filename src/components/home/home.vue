@@ -62,7 +62,7 @@ export default {
 .wrap
   width 100%
   height 100%
-  overflow hidden
+  overflow scroll
   .top
     position fixed
     width 100%
